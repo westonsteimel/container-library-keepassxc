@@ -11,7 +11,7 @@
 FROM alpine:edge as builder
 LABEL maintainer "Christian Koep <christiankoep@gmail.com>"
 
-ENV KEEPASSXC_VERSION develop
+ENV KEEPASSXC_VERSION 2.4.1
 
 RUN set -x \
     && apk upgrade && apk --no-cache add --virtual .build-dependencies \
