@@ -59,10 +59,10 @@ RUN	apk upgrade && apk --no-cache add \
     qt5-qtsvg \
     libqrencode \
     zlib \
-	ttf-dejavu
-
-RUN addgroup -g 1000 keepassxc \
-    && adduser -u 1000 -G keepassxc -s /bin/sh -D keepassxc
+	ttf-dejavu \
+    && rm -rf /var/cache/* \
+    && addgroup keepassxc \
+    && adduser -G keepassxc -s /bin/sh -D keepassxc
 
 USER keepassxc
 
