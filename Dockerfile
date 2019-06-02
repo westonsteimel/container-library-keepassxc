@@ -9,9 +9,8 @@
 #		westonsteimel/keepassxc
 #
 FROM alpine:edge as builder
-LABEL maintainer "Christian Koep <christiankoep@gmail.com>"
 
-ENV KEEPASSXC_VERSION 2.4.1
+ENV KEEPASSXC_VERSION 2.4.2
 
 RUN set -x \
     && apk upgrade && apk --no-cache add --virtual .build-dependencies \
@@ -31,6 +30,7 @@ RUN set -x \
     qt5-qttools-dev \
     qt5-qtsvg-dev \
     libqrencode-dev \
+    libsodium-dev \
     zlib-dev \
     && git clone --depth 1 --branch ${KEEPASSXC_VERSION} https://github.com/keepassxreboot/keepassxc.git /usr/src/keepassxc \
 	&& cd /usr/src/keepassxc \
@@ -58,6 +58,7 @@ RUN	apk upgrade && apk --no-cache add \
 	qt5-qttools \
     qt5-qtsvg \
     libqrencode \
+    libsodium \
     zlib \
 	ttf-dejavu \
     && rm -rf /var/cache/* \
