@@ -10,7 +10,8 @@
 #
 FROM alpine:edge as builder
 
-ENV KEEPASSXC_VERSION 2.4.2
+LABEL "version"="2.4.3"
+ENV KEEPASSXC_VERSION 2.4.3
 
 RUN set -x \
     && apk upgrade && apk --no-cache add --virtual .build-dependencies \
@@ -36,7 +37,13 @@ RUN set -x \
 	&& cd /usr/src/keepassxc \
 	&& mkdir build \
 	&& cd build \
-	&& cmake -DCMAKE_BUILD_TYPE=Release -DWITH_TESTS=OFF -DWITH_XC_AUTOTYPE=ON -DWITH_XC_HTTP=ON -DWITH_XC_YUBIKEY=OFF -DWITH_XC_KEESHARE=OFF .. \
+	&& cmake -DCMAKE_BUILD_TYPE=Release \
+    -DKEEPASSXC_BUILD_TYPE=Release \
+    -DWITH_TESTS=OFF \
+    -DWITH_XC_AUTOTYPE=ON \
+    -DWITH_XC_HTTP=ON \
+    -DWITH_XC_YUBIKEY=OFF \
+    -DWITH_XC_KEESHARE=OFF .. \
 	&& make \
 	&& make install \
 	&& apk del .build-dependencies \
@@ -46,6 +53,7 @@ RUN set -x \
 FROM alpine:edge
 
 COPY --from=builder /usr/local/bin/keepassxc /usr/local/bin/keepassxc
+COPY --from=builder /usr/local/share/keepassxc/   /usr/local/share/keepassxc/
 
 RUN	apk upgrade && apk --no-cache add \
 	argon2-libs \
