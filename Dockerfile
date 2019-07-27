@@ -8,10 +8,11 @@
 #		-e DISPLAY=unix$DISPLAY \
 #		westonsteimel/keepassxc
 #
+ARG KEEPASSXC_VERSION="2.4.3"
 FROM alpine:edge as builder
 
-LABEL "version"="2.4.3"
-ENV KEEPASSXC_VERSION 2.4.3
+ARG KEEPASSXC_VERSION
+ENV KEEPASSXC_VERSION "${KEEPASSXC_VERSION}"
 
 RUN set -x \
     && apk upgrade && apk --no-cache add --virtual .build-dependencies \
@@ -48,12 +49,14 @@ RUN set -x \
 	&& make install \
 	&& apk del .build-dependencies \
 	&& rm -rf /usr/src/keepassxc \
-	&& echo "Build complete."
+	&& echo "keepassxc build complete"
 
 FROM alpine:edge
 
+ARG KEEPASSXC_VERSION
+
 COPY --from=builder /usr/local/bin/keepassxc /usr/local/bin/keepassxc
-COPY --from=builder /usr/local/share/keepassxc/   /usr/local/share/keepassxc/
+COPY --from=builder /usr/local/share/keepassxc/ /usr/local/share/keepassxc/
 
 RUN	apk upgrade && apk --no-cache add \
 	argon2-libs \
@@ -76,3 +79,7 @@ RUN	apk upgrade && apk --no-cache add \
 USER keepassxc
 
 ENTRYPOINT [ "/usr/local/bin/keepassxc" ]
+
+LABEL org.opencontainers.image.url="https://github.com/westonsteimel/docker-keepassxc" \ 
+    org.opencontainers.image.source="https://github.com/westonsteimel/docker-keepassxc" \
+    org.opencontainers.image.version="${KEEPASSXC_VERSION}"
