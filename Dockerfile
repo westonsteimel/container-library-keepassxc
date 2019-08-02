@@ -53,6 +53,7 @@ ARG KEEPASSXC_VERSION
 
 COPY --from=builder /usr/local/bin/keepassxc /usr/local/bin/keepassxc
 COPY --from=builder /usr/local/share/keepassxc/ /usr/local/share/keepassxc/
+COPY diceware-wordlists/*.wordlist /usr/local/share/keepassxc/wordlists/
 
 RUN set -x && \
     apk upgrade && \
