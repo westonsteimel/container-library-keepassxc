@@ -1,0 +1,4 @@
+[submodule "diceware-wordlists"]
+	path = diceware-wordlists
+	url = https://github.com/tylert/diceware-wordlists
+	branch = master
