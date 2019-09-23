@@ -3,7 +3,7 @@
 # Provide a nice wrapper for using the keepassxc docker container
 
 # Set these to where you normally keep your stuff
-IMG_TAG="westonsteimel/keepassxc:2.4.3"
+IMG_TAG="westonsteimel/keepassxc:latest"
 KEEPASSXC_CONFIG="${HOME}/.config/keepassxc"
 KEEPASSXC_DATABASES="${HOME}/kdbx"
 KEEPASSXC_DESKTOP="${HOME}/Desktop/keepassxc.desktop"
@@ -17,7 +17,7 @@ fi
 
 # Build the container image
 docker build \
-    --file Dockerfile \
+    --file stable/Dockerfile \
     --tag ${IMG_TAG} \
     .
 

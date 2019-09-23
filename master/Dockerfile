@@ -1,7 +1,7 @@
 # keepassxc
 # See install.sh for how to run this container image
 
-ARG KEEPASSXC_VERSION="2.4.3"
+ARG KEEPASSXC_VERSION="master"
 FROM alpine:edge as builder
 
 ARG KEEPASSXC_VERSION
@@ -79,6 +79,9 @@ USER keepassxc
 
 ENTRYPOINT [ "/usr/local/bin/keepassxc" ]
 
-LABEL org.opencontainers.image.url="https://github.com/westonsteimel/docker-keepassxc" \
+LABEL org.opencontainers.image.title="keepassxc" \
+    org.opencontainers.image.description="keepassxc in Docker" \ 
+    org.opencontainers.image.url="https://github.com/westonsteimel/docker-keepassxc" \ 
     org.opencontainers.image.source="https://github.com/westonsteimel/docker-keepassxc" \
-    org.opencontainers.image.version="${KEEPASSXC_VERSION}"
+    org.opencontainers.image.version="${KEEPASSXC_VERSION}" \
+    version="${KEEPASSXC_VERSION}"
