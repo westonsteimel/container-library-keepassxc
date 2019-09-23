@@ -1,0 +1,28 @@
+on:
+  schedule:
+  - cron: '0 1 * * *'
+name: Build and deploy master daily
+jobs:
+  docker_build_master:
+    name: Docker Build master
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Docker Build
+      uses: actions/docker/cli@master
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      with:
+        args: build -t "${DOCKER_USERNAME}/keepassxc:master" master
+    - name: Login DockerHub
+      uses: actions/docker/login@master
+      env:
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+    - name: Docker Push
+      uses: actions/docker/cli@master
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      with:
+        args: push "${DOCKER_USERNAME}/keepassxc"
+
