@@ -27,6 +27,7 @@ RUN set -x && \
         qt5-qtbase-dev \
         qt5-qtsvg-dev \
         qt5-qttools-dev \
+        qt5-qtx11extras-dev \
         zlib-dev && \
     git clone --depth 1 --branch ${KEEPASSXC_VERSION} https://github.com/keepassxreboot/keepassxc.git /usr/src/keepassxc && \
     cd /usr/src/keepassxc && \
@@ -37,7 +38,6 @@ RUN set -x && \
         -DKEEPASSXC_BUILD_TYPE=Release \
         -DWITH_TESTS=OFF \
         -DWITH_XC_AUTOTYPE=ON \
-        -DWITH_XC_HTTP=ON \
         -DWITH_XC_KEESHARE=OFF \
         -DWITH_XC_YUBIKEY=OFF \
         .. && \
