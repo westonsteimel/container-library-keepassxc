@@ -1,7 +1,7 @@
 # keepassxc
 # See install.sh for how to run this container image
 
-ARG KEEPASSXC_VERSION="2.5.1"
+ARG KEEPASSXC_VERSION="2.5.2"
 FROM alpine:edge as builder
 
 ARG KEEPASSXC_VERSION
