@@ -3,11 +3,27 @@
 # Provide a nice wrapper for using the keepassxc docker container
 
 # Set these to where you normally keep your stuff
-IMG_TAG="westonsteimel/keepassxc:latest"
-KEEPASSXC_CONFIG="${HOME}/.config/keepassxc"
-KEEPASSXC_DATABASES="${HOME}/kdbx"
-KEEPASSXC_DESKTOP="${HOME}/Desktop/keepassxc.desktop"
-KEEPASSXC_HELPER="${HOME}/bin/keepassxc.sh"
+if [ -z "${IMG_TAG}" ]; then
+    IMG_TAG='westonsteimel/keepassxc:latest'
+fi
+if [ -z "${KEEPASSXC_CONFIG}" ]; then
+    KEEPASSXC_CONFIG="${HOME}/.config/keepassxc"
+fi
+if [ -z "${KEEPASSXC_DATABASES}" ]; then
+    KEEPASSXC_DATABASES="${HOME}/data"
+fi
+if [ -z "${KEEPASSXC_DESKTOP}" ]; then
+    KEEPASSXC_DESKTOP="${HOME}/Desktop/keepassxc.desktop"
+fi
+if [ -z "${KEEPASSXC_HELPER}" ]; then
+    KEEPASSXC_HELPER="${HOME}/bin/keepassxc.sh"
+fi
+if [ -z "${KEEPASSXC_VERSION}" ]; then
+    KEEPASSXC_VERSION='2.5.4'
+fi
+if [ -z "${KEEPASSXC_VARIANT}" ]; then
+    KEEPASSXC_VARIANT='stable'
+fi
 
 # Make sure the config location is present and owned by your user
 # Use the short option version here so it works on both Linux and macOS
@@ -17,12 +33,14 @@ fi
 
 # Build the container image
 docker build \
-    --file stable/Dockerfile \
-    --tag ${IMG_TAG} \
+    --build-arg "KEEPASSXC_VERSION=${KEEPASSXC_VERSION}" \
+    --file "${KEEPASSXC_VARIANT}/Dockerfile" \
+    --tag "${IMG_TAG}" \
     .
 
 # Prepare the helper wrapper script for running this container image
-HELPER="docker run \
+cat << EOF > "${KEEPASSXC_HELPER}"
+docker run \
     --detach \
     --env "DISPLAY=unix${DISPLAY}" \
     --volume "${KEEPASSXC_CONFIG}:/home/keepassxc/.config/keepassxc" \
@@ -30,17 +48,19 @@ HELPER="docker run \
     --volume /etc/machine-id:/etc/machine-id:ro \
     --volume /tmp/.X11-unix:/tmp/.X11-unix \
     --volume /usr/share/X11/xkb:/usr/share/X11/xkb/:ro \
-    ${IMG_TAG}"
-echo "${HELPER}" > "${KEEPASSXC_HELPER}"
+    "${IMG_TAG}"
+EOF
+# --volume /tmp:/usr/local/share/keepassxc/wordlists:ro \
 chmod +x "${KEEPASSXC_HELPER}"
 
 # Prepare a helpful (GNOME) desktop icon for launching this application
-DESKTOP="[Desktop Entry]
+cat << EOF > "${KEEPASSXC_DESKTOP}"
+[Desktop Entry]
 Comment=
 Exec=${KEEPASSXC_HELPER}
 Icon=preferences-system-privacy
 Name=keepassxc
 Terminal=false
-Type=Application"
-echo "${DESKTOP}" > "${KEEPASSXC_DESKTOP}"
+Type=Application
+EOF
 chmod +x "${KEEPASSXC_DESKTOP}"
