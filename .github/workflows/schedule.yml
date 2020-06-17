@@ -9,7 +9,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Build and Publish stable to DockerHub
-      uses: westonsteimel/action-docker-publish@master
+      uses: westonsteimel/action-docker-publish@main
       with:
         registry: 'docker.io'
         password: ${{ secrets.DOCKER_PASSWORD }}
@@ -22,20 +22,20 @@ jobs:
         tag_version: true
         tag_sha: false
         tag_timestamp: false
-  dockerhub_publish_master:
-    name: DockerHub Build and Publish master
+  dockerhub_publish_main:
+    name: DockerHub Build and Publish main
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: Build and Publish master to DockerHub
-      uses: westonsteimel/action-docker-publish@master
+    - name: Build and Publish main to DockerHub
+      uses: westonsteimel/action-docker-publish@main
       with:
         registry: 'docker.io'
         password: ${{ secrets.DOCKER_PASSWORD }}
         username: ${{ secrets.DOCKER_USERNAME }}
         image_name: 'keepassxc'
-        build_context: 'master'
-        dockerfile_path: 'master/Dockerfile'
+        build_context: 'main'
+        dockerfile_path: 'main/Dockerfile'
         tag_ref: true
         tag_latest: false
         tag_version: false
