@@ -25,7 +25,8 @@ jobs:
           echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin "${DOCKER_REGISTRY}"
           docker build --tag "${BASE_NAME}:stable" --label "${SOURCE_LABEL}" --label "${REVISION_LABEL}" --label "${CREATED_LABEL}" stable
           docker tag "${BASE_NAME}:stable" "${BASE_NAME}:stable-`date --utc --rfc-3339=date`"
-          docker tag "${BASE_NAME}:stable" "${BASE_NAME}:`docker inspect ${BASE_NAME}:stable | jq -r .[0].ContainerConfig.Labels.version`"
+          VERSION=`docker inspect ${BASE_NAME}:stable | jq -r ".[0].ContainerConfig.Labels.\"org.opencontainers.image.version\""`
+          docker tag "${BASE_NAME}:stable" "${BASE_NAME}:${VERSION}"
           docker tag "${BASE_NAME}:stable" "${BASE_NAME}:latest"
           docker push "${BASE_NAME}"
           docker logout
