@@ -1,9 +1,12 @@
 # keepassxc
 # See install.sh for how to run this container image
 
-ARG KEEPASSXC_VERSION="2.5.3"
+ARG GIT_TAG="2.5.3"
+ARG KEEPASSXC_VERSION="${GIT_TAG}"
+
 FROM alpine:edge as builder
 
+ARG GIT_TAG
 ARG KEEPASSXC_VERSION
 ENV KEEPASSXC_VERSION "${KEEPASSXC_VERSION}"
 
@@ -29,7 +32,7 @@ RUN set -x && \
         qt5-qttools-dev \
         qt5-qtx11extras-dev \
         zlib-dev && \
-    git clone --depth 1 --branch ${KEEPASSXC_VERSION} https://github.com/keepassxreboot/keepassxc.git /usr/src/keepassxc && \
+    git clone --depth 1 --branch ${GIT_TAG} https://github.com/keepassxreboot/keepassxc.git /usr/src/keepassxc && \
     cd /usr/src/keepassxc && \
     mkdir build && \
     cd build && \
@@ -81,7 +84,4 @@ ENTRYPOINT [ "/usr/local/bin/keepassxc" ]
 
 LABEL org.opencontainers.image.title="keepassxc" \
     org.opencontainers.image.description="keepassxc in Docker" \ 
-    org.opencontainers.image.url="https://github.com/westonsteimel/docker-keepassxc" \ 
-    org.opencontainers.image.source="https://github.com/westonsteimel/docker-keepassxc" \
-    org.opencontainers.image.version="${KEEPASSXC_VERSION}" \
-    version="${KEEPASSXC_VERSION}"
+    org.opencontainers.image.version="${KEEPASSXC_VERSION}"
