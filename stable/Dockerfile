@@ -1,7 +1,7 @@
 # keepassxc
 # See install.sh for how to run this container image
 
-ARG GIT_TAG="2.5.3"
+ARG GIT_TAG="2.6.0"
 ARG KEEPASSXC_VERSION="${GIT_TAG}"
 
 FROM alpine:edge as builder
