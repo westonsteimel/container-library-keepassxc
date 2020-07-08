@@ -14,6 +14,7 @@ RUN set -x && \
     apk upgrade && \
     apk --no-cache add --virtual .build-dependencies \
         argon2-dev \
+        asciidoctor \
         automake \
         bash \
         cmake \
