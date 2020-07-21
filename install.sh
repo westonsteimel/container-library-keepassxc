@@ -7,12 +7,18 @@ IMG_TAG="westonsteimel/keepassxc:latest"
 KEEPASSXC_CONFIG="${HOME}/.config/keepassxc"
 KEEPASSXC_DATABASES="${HOME}/kdbx"
 KEEPASSXC_DESKTOP="${HOME}/Desktop/keepassxc.desktop"
-KEEPASSXC_HELPER="${HOME}/bin/keepassxc.sh"
+KEEPASSXC_HELPER_DIR="${HOME}/bin"
+KEEPASSXC_HELPER="${KEEPASSXC_HELPER_DIR}/keepassxc.sh"
 
 # Make sure the config location is present and owned by your user
 # Use the short option version here so it works on both Linux and macOS
 if [ ! -d "${KEEPASSXC_CONFIG}" ]; then
     mkdir -p "${KEEPASSXC_CONFIG}"
+fi
+
+# Make sure the helper script location actually exists.
+if [ ! -d "${KEEPASSXC_HELPER_DIR}" ]; then
+    mkdir -p "${KEEPASSXC_HELPER_DIR}"
 fi
 
 # Build the container image
