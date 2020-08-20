@@ -15,35 +15,38 @@ jobs:
     name: stable
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@main
+      -
+        name: Set up Docker Buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v3
+        with:
+          buildx-version: latest
+          qemu-version: latest
       - name: Build and Publish stable to DockerHub
         run: |
-          BASE_NAME="${DOCKER_REGISTRY}/${DOCKER_USERNAME}/${DOCKER_REPOSITORY}"
-          SOURCE_LABEL="org.opencontainers.image.source=https://github.com/${GITHUB_REPOSITORY}"
-          REVISION_LABEL="org.opencontainers.image.revision=${GITHUB_SHA}"
-          CREATED_LABEL="org.opencontainers.image.created=`date --utc --rfc-3339=seconds`"
-          echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin "${DOCKER_REGISTRY}"
-          docker build --tag "${BASE_NAME}:stable" --label "${SOURCE_LABEL}" --label "${REVISION_LABEL}" --label "${CREATED_LABEL}" stable
-          docker tag "${BASE_NAME}:stable" "${BASE_NAME}:stable-`date --utc --rfc-3339=date`"
-          VERSION=`docker inspect ${BASE_NAME}:stable | jq -r ".[0].ContainerConfig.Labels.\"org.opencontainers.image.version\""`
-          docker tag "${BASE_NAME}:stable" "${BASE_NAME}:${VERSION}"
-          docker tag "${BASE_NAME}:stable" "${BASE_NAME}:latest"
-          docker push "${BASE_NAME}"
-          docker logout
+          export DOCKER_BUILD_CONTEXT="stable"
+          export LATEST_RELEASE=`curl --silent "https://api.github.com/repos/keepassxreboot/keepassxc/releases/latest" | jq .tag_name | xargs`
+          export DOCKER_IMAGE_VERSION=${LATEST_RELEASE}
+          export DOCKER_TAGS="stable,latest,${DOCKER_IMAGE_VERSION}"
+          ./scripts/publish.sh
   edge:
     name: edge
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@main
+      - 
+        name: Set up Docker Buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v3
+        with:
+          buildx-version: latest
+          qemu-version: latest
       - name: Build and Publish edge to DockerHub
         run: |
-          BASE_NAME="${DOCKER_REGISTRY}/${DOCKER_USERNAME}/${DOCKER_REPOSITORY}"
-          SOURCE_LABEL="org.opencontainers.image.source=https://github.com/${GITHUB_REPOSITORY}"
-          REVISION_LABEL="org.opencontainers.image.revision=${GITHUB_SHA}"
-          CREATED_LABEL="org.opencontainers.image.created=`date --utc --rfc-3339=seconds`"
-          echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin ${DOCKER_REGISTRY}
-          docker build --tag "${BASE_NAME}:edge" --label "${SOURCE_LABEL}" --label "${REVISION_LABEL}" --label "${CREATED_LABEL}" edge
-          docker tag "${BASE_NAME}:edge" "${BASE_NAME}:edge-`date --utc --rfc-3339=date`"
-          docker push "${BASE_NAME}"
-          docker logout
+          export DOCKER_BUILD_CONTEXT="edge"
+          export DOCKER_IMAGE_VERSION="master"
+          export DATE_TAG=`date --utc --rfc-3339=date`
+          export DOCKER_TAGS="edge,edge-${DATE_TAG}"
+          ./scripts/publish.sh
 

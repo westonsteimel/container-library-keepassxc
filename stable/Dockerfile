@@ -1,14 +1,15 @@
 # keepassxc
 # See install.sh for how to run this container image
 
-ARG GIT_TAG="2.6.1"
-ARG KEEPASSXC_VERSION="${GIT_TAG}"
+ARG SOURCE
+ARG REVISION
+ARG CREATED
+ARG VERSION
+ARG GIT_REF="${VERSION}"
 
-FROM alpine:edge as builder
+FROM alpine:latest as builder
 
-ARG GIT_TAG
-ARG KEEPASSXC_VERSION
-ENV KEEPASSXC_VERSION "${KEEPASSXC_VERSION}"
+ARG GIT_REF
 
 RUN set -x && \
     apk upgrade && \
@@ -33,7 +34,7 @@ RUN set -x && \
         qt5-qttools-dev \
         qt5-qtx11extras-dev \
         zlib-dev && \
-    git clone --depth 1 --branch "${GIT_TAG}" https://github.com/keepassxreboot/keepassxc.git /usr/src/keepassxc && \
+    git clone --depth 1 --branch ${GIT_REF} https://github.com/keepassxreboot/keepassxc.git /usr/src/keepassxc && \
     cd /usr/src/keepassxc && \
     mkdir build && \
     cd build && \
@@ -51,9 +52,12 @@ RUN set -x && \
 
 RUN git clone --depth 1 https://github.com/tylert/diceware-wordlists/ /diceware-wordlists
 
-FROM alpine:edge
+FROM alpine:latest
 
-ARG KEEPASSXC_VERSION
+ARG VERSION
+ARG SOURCE
+ARG REVISION
+ARG CREATED
 
 COPY --from=builder /usr/local/bin/keepassxc /usr/local/bin/keepassxc
 COPY --from=builder /usr/local/share/keepassxc/ /usr/local/share/keepassxc/
@@ -85,4 +89,8 @@ ENTRYPOINT [ "/usr/local/bin/keepassxc" ]
 
 LABEL org.opencontainers.image.title="keepassxc" \
     org.opencontainers.image.description="keepassxc in Docker" \ 
-    org.opencontainers.image.version="${KEEPASSXC_VERSION}"
+    org.opencontainers.image.source="${SOURCE}" \
+    org.opencontainers.image.revision="${REVISION}" \
+    org.opencontainers.image.created="${CREATED}" \
+    org.opencontainers.image.version="${VERSION}"
+
