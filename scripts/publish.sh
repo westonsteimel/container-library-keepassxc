@@ -52,7 +52,7 @@ echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdi
 
 IFS=',' read -ra TAGS <<< "$DOCKER_TAGS"
 for tag in "${TAGS[@]}"; do
-    docker buildx build --platform "linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64" \
+    docker buildx build --platform "linux/amd64" \
         --build-arg SOURCE \
         --build-arg REVISION \
         --build-arg CREATED \
