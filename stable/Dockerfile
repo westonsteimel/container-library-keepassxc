@@ -33,7 +33,7 @@ RUN set -x && \
         qt5-qttools-dev \
         qt5-qtx11extras-dev \
         zlib-dev && \
-    git clone --depth 1 --branch "release/${GIT_TAG}" https://github.com/keepassxreboot/keepassxc.git /usr/src/keepassxc && \
+    git clone --depth 1 --branch "${GIT_TAG}" https://github.com/keepassxreboot/keepassxc.git /usr/src/keepassxc && \
     cd /usr/src/keepassxc && \
     mkdir build && \
     cd build && \
