@@ -1,9 +1,9 @@
 # keepassxc
 # See install.sh for how to run this container image
 
-ARG SOURCE
-ARG REVISION
 ARG CREATED
+ARG REVISION
+ARG SOURCE
 ARG VERSION
 ARG GIT_REF="${VERSION}"
 
@@ -54,10 +54,10 @@ RUN git clone --depth 1 https://github.com/tylert/diceware-wordlists/ /diceware-
 
 FROM alpine:latest
 
-ARG VERSION
-ARG SOURCE
-ARG REVISION
 ARG CREATED
+ARG REVISION
+ARG SOURCE
+ARG VERSION
 
 COPY --from=builder /usr/local/bin/keepassxc /usr/local/bin/keepassxc
 COPY --from=builder /usr/local/share/keepassxc/ /usr/local/share/keepassxc/
@@ -88,9 +88,8 @@ USER keepassxc
 ENTRYPOINT [ "/usr/local/bin/keepassxc" ]
 
 LABEL org.opencontainers.image.title="keepassxc" \
-    org.opencontainers.image.description="keepassxc in Docker" \ 
+    org.opencontainers.image.description="keepassxc in Docker" \
     org.opencontainers.image.source="${SOURCE}" \
     org.opencontainers.image.revision="${REVISION}" \
     org.opencontainers.image.created="${CREATED}" \
     org.opencontainers.image.version="${VERSION}"
-

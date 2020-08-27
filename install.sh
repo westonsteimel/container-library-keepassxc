@@ -1,30 +1,33 @@
 #!/usr/bin/env bash
 
-# Provide a nice wrapper for using the keepassxc docker container
+# Provide a wrapper script and desktop icon for using the keepassxc container
+
+# Parameters to control the tags, versions and streams to be built
+IMG_TAG="westonsteimel/keepassxc:latest"
+GIT_REF="master"
+RELEASE="stable"
 
 # Set these to where you normally keep your stuff
-IMG_TAG="westonsteimel/keepassxc:latest"
 KEEPASSXC_CONFIG="${HOME}/.config/keepassxc"
 KEEPASSXC_DATABASES="${HOME}/kdbx"
 KEEPASSXC_DESKTOP="${HOME}/Desktop/keepassxc.desktop"
-KEEPASSXC_HELPER_DIR="${HOME}/bin"
-KEEPASSXC_HELPER="${KEEPASSXC_HELPER_DIR}/keepassxc.sh"
+KEEPASSXC_HELPER="${HOME}/bin/keepassxc.sh"
 
 # Make sure the config location is present and owned by your user
-# Use the short option version here so it works on both Linux and macOS
-if [ ! -d "${KEEPASSXC_CONFIG}" ]; then
-    mkdir -p "${KEEPASSXC_CONFIG}"
+if [ ! -d "$(dirname ${KEEPASSXC_CONFIG})" ]; then
+    mkdir -p "$(dirname ${KEEPASSXC_CONFIG})"
 fi
 
-# Make sure the helper script location actually exists.
-if [ ! -d "${KEEPASSXC_HELPER_DIR}" ]; then
-    mkdir -p "${KEEPASSXC_HELPER_DIR}"
+# Make sure the helper script location actually exists
+if [ ! -d "$(dirname ${KEEPASSXC_HELPER})" ]; then
+    mkdir -p "$(dirname ${KEEPASSXC_HELPER})"
 fi
 
 # Build the container image
 docker build \
-    --file stable/Dockerfile \
-    --tag ${IMG_TAG} \
+    --build-arg "GIT_REF=${GIT_REF}" \
+    --file "${RELEASE}/Dockerfile" \
+    --tag "${IMG_TAG}" \
     .
 
 # Prepare the helper wrapper script for running this container image
