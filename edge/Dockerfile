@@ -7,7 +7,7 @@ ARG SOURCE
 ARG VERSION
 ARG GIT_REF="${VERSION}"
 
-FROM alpine:edge as builder
+FROM alpine:latest as builder
 
 ARG GIT_REF
 
@@ -52,7 +52,7 @@ RUN set -x && \
 
 RUN git clone --depth 1 https://github.com/tylert/diceware-wordlists/ /diceware-wordlists
 
-FROM alpine:edge
+FROM alpine:latest
 
 ARG CREATED
 ARG REVISION
