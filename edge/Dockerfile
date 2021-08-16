@@ -74,6 +74,7 @@ RUN set -x && \
         qt5-qtbase-x11 \
         qt5-qtsvg \
         qt5-qttools \
+        qt5-qtx11extras \
         ttf-dejavu \
         zlib && \
     rm -rf /var/cache/* && \
