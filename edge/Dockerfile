@@ -22,10 +22,9 @@ RUN set -x && \
         g++ \
         gcc \
         git \
-        libgcrypt-dev \
         libmicrohttpd-dev \
         libqrencode-dev \
-        libsodium-dev \
+        botan-dev \
         make \
         qt5-qtbase-dev \
         qt5-qtsvg-dev \
@@ -67,10 +66,9 @@ RUN set -x && \
     apk --no-cache add \
         argon2-libs \
         libcurl \
-        libgcrypt \
         libmicrohttpd \
         libqrencode \
-        libsodium \
+        botan-libs \
         mesa-dri-intel \
         qt5-qtbase \
         qt5-qtbase-x11 \
