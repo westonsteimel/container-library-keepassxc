@@ -4,7 +4,6 @@
 
 # Parameters to control the tags, versions and streams to be built
 IMG_TAG="westonsteimel/keepassxc:latest"
-GIT_REF="master"
 RELEASE="stable"
 
 # Set these to where you normally keep your stuff
@@ -25,7 +24,6 @@ fi
 
 # Build the container image
 docker build \
-    --build-arg "GIT_REF=${GIT_REF}" \
     --file "${RELEASE}/Dockerfile" \
     --tag "${IMG_TAG}" \
     .
