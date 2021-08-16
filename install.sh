@@ -11,6 +11,7 @@ KEEPASSXC_CONFIG="${HOME}/.config/keepassxc"
 KEEPASSXC_DATABASES="${HOME}/kdbx"
 KEEPASSXC_DESKTOP="${HOME}/Desktop/keepassxc.desktop"
 KEEPASSXC_HELPER="${HOME}/bin/keepassxc.sh"
+KEEPASSXC_WORDLISTS="${HOME}/wordlists"
 
 # Make sure the config location is present and owned by your user
 if [ ! -d "$(dirname ${KEEPASSXC_CONFIG})" ]; then
@@ -20,6 +21,11 @@ fi
 # Make sure the helper script location actually exists
 if [ ! -d "$(dirname ${KEEPASSXC_HELPER})" ]; then
     mkdir -p "$(dirname ${KEEPASSXC_HELPER})"
+fi
+
+# Make sure the wordlists directory exists
+if [ ! -d "${KEEPASSXC_WORDLISTS}" ]; then
+    mkdir -p "${KEEPASSXC_WORDLISTS}"
 fi
 
 # Build the container image
@@ -37,6 +43,7 @@ HELPER="docker run \
     --volume /etc/machine-id:/etc/machine-id:ro \
     --volume /tmp/.X11-unix:/tmp/.X11-unix \
     --volume /usr/share/X11/xkb:/usr/share/X11/xkb/:ro \
+    --volume "${KEEPASSXC_WORDLISTS}:/usr/local/share/keepassxc/wordlists/"
     ${IMG_TAG}"
 echo "${HELPER}" > "${KEEPASSXC_HELPER}"
 chmod +x "${KEEPASSXC_HELPER}"

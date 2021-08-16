@@ -49,8 +49,6 @@ RUN set -x && \
     make install && \
     echo "keepassxc build complete"
 
-RUN git clone --depth 1 https://github.com/tylert/diceware-wordlists/ /diceware-wordlists
-
 FROM alpine:latest
 
 ARG VERSION
@@ -60,7 +58,6 @@ ENV KEEPASSXC_VERSION="${VERSION}" \
 
 COPY --from=builder /usr/local/bin/keepassxc /usr/local/bin/keepassxc
 COPY --from=builder /usr/local/share/keepassxc/ /usr/local/share/keepassxc/
-COPY --from=builder /diceware-wordlists/*.wordlist /usr/local/share/keepassxc/wordlists/
 
 RUN set -x && \
     apk upgrade && \
