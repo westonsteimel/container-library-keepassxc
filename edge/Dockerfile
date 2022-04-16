@@ -2,7 +2,7 @@
 # See install.sh for how to run this container image
 
 ARG VERSION="develop"
-ARG REVISION="5916a8f8dd93eb6a5de544caedd7a9d8e9a3b1ee"
+ARG REVISION="7edeceec0376513002813efb7bf723fbcbe6752d"
 
 FROM alpine:latest as builder
 
