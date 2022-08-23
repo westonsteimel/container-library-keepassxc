@@ -30,6 +30,8 @@ RUN set -x && \
         qt5-qtsvg-dev \
         qt5-qttools-dev \
         qt5-qtx11extras-dev \
+        libxi-dev \
+        libxtst-dev \
         zlib-dev && \
     git clone --branch ${VERSION} https://github.com/keepassxreboot/keepassxc.git /usr/src/keepassxc && \
     cd /usr/src/keepassxc && \
@@ -73,6 +75,8 @@ RUN set -x && \
         qt5-qttools \
         qt5-qtx11extras \
         ttf-dejavu \
+        libxi \
+        libxtst \
         zlib && \
     rm -rf /var/cache/* && \
     addgroup keepassxc && \
