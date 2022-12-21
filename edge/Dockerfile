@@ -68,7 +68,6 @@ RUN set -x && \
         libmicrohttpd \
         libqrencode \
         botan-libs \
-        mesa-dri-intel \
         qt5-qtbase \
         qt5-qtbase-x11 \
         qt5-qtsvg \

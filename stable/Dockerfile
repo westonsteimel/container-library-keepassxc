@@ -30,6 +30,8 @@ RUN set -x && \
         qt5-qtsvg-dev \
         qt5-qttools-dev \
         qt5-qtx11extras-dev \
+        libxi-dev \
+        libxtst-dev \
         zlib-dev && \
     git clone --branch ${VERSION} https://github.com/keepassxreboot/keepassxc.git /usr/src/keepassxc && \
     cd /usr/src/keepassxc && \
@@ -66,12 +68,13 @@ RUN set -x && \
         libmicrohttpd \
         libqrencode \
         botan-libs \
-        mesa-dri-intel \
         qt5-qtbase \
         qt5-qtbase-x11 \
         qt5-qtsvg \
         qt5-qttools \
         qt5-qtx11extras \
+        libxi \
+        libxtst \
         ttf-dejavu \
         zlib && \
     rm -rf /var/cache/* && \
