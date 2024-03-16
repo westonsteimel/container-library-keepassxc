@@ -1,8 +1,8 @@
 # keepassxc
 # See install.sh for how to run this container image
 
-ARG VERSION="2.7.6"
-ARG REVISION="dd21defcf38e06e6aa4286fe85bfbb399b1e36e9"
+ARG VERSION="2.7.7"
+ARG REVISION="68e2dd8d22fdef79c72ad5902e026c698e2ff087"
 
 FROM alpine:latest as builder
 
