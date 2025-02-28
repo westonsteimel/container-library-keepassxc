@@ -13,39 +13,44 @@ ARG KEEPASSXC_REPOSITORY \
 RUN set -x && \
     apk upgrade && \
     apk --no-cache add --virtual .build-dependencies \
-        argon2-dev \
-        asciidoctor \
-        automake \
-        bash \
-        cmake \
-        curl-dev \
-        expat \
-        g++ \
-        gcc \
-        git \
-        libmicrohttpd-dev \
-        libqrencode-dev \
-        botan-dev \
-        make \
-        qt5-qtbase-dev \
-        qt5-qtsvg-dev \
-        qt5-qttools-dev \
-        qt5-qtx11extras-dev \
-        libxi-dev \
-        libxtst-dev \
-        zlib-dev && \
+    argon2-dev \
+	asciidoctor \
+	botan3-dev \
+	cmake \
+	libqrencode-dev \
+	libusb-dev \
+	libxi-dev \
+	libxtst-dev \
+	minizip-dev \
+	pcsc-lite-dev \
+	qt5-qtbase-dev \
+	qt5-qtsvg-dev \
+	qt5-qttools-dev \
+	qt5-qtx11extras-dev \
+	readline-dev \
+	samurai \
+	zlib-dev && \
     git clone --branch ${KEEPASSXC_BRANCH} ${KEEPASSXC_REPOSITORY} /usr/src/keepassxc && \
     cd /usr/src/keepassxc && \
     git reset --hard ${KEEPASSXC_COMMIT} && \
     mkdir build && \
     cd build && \
-    cmake \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DKEEPASSXC_BUILD_TYPE=Release \
-        -DWITH_TESTS=OFF \
-        -DWITH_XC_AUTOTYPE=ON \
-        -DWITH_XC_KEESHARE=OFF \
-        -DWITH_XC_YUBIKEY=OFF \
+    export CXXFLAGS="$CXXFLAGS -flto=auto" && \
+	cmake -G Ninja -B build \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=/usr/lib \
+		-DCMAKE_BUILD_TYPE=MinSizeRel \
+		-DKEEPASSXC_BUILD_TYPE=Release \
+		-DWITH_XC_AUTOTYPE=ON \
+		-DWITH_XC_NETWORKING=ON \
+		-DWITH_XC_BROWSER=ON \
+		-DWITH_XC_BROWSER_PASSKEYS=ON \
+		-DWITH_XC_YUBIKEY=ON \
+		-DWITH_XC_SSHAGENT=ON \
+		-DWITH_XC_KEESHARE=ON \
+		-DWITH_XC_UPDATECHECK=OFF \
+		-DWITH_XC_FDOSECRETS=ON \
+		-DWITH_GUI_TESTS=ON \
         .. && \
     make && \
     make install && \
