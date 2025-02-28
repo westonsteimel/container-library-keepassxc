@@ -29,7 +29,8 @@ RUN set -x && \
 	qt5-qtx11extras-dev \
 	readline-dev \
 	samurai \
-	zlib-dev && \
+	zlib-dev \
+    git && \
     git clone --branch ${KEEPASSXC_BRANCH} ${KEEPASSXC_REPOSITORY} /usr/src/keepassxc && \
     cd /usr/src/keepassxc && \
     git reset --hard ${KEEPASSXC_COMMIT} && \
