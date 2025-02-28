@@ -1,13 +1,14 @@
-# keepassxc
-# See install.sh for how to run this container image
-
-ARG VERSION="develop"
-ARG REVISION="0b5ae1775cfb34143ee628694daee69e4765bbc7"
+# The global build args need to all be prefixed with ARG for the update substitutions to work
+ARG KEEPASSXC_REPOSITORY="https://github.com/keepassxreboot/keepassxc"
+ARG KEEPASXC_VERSION="edge"
+ARG KEEPASSXC_BRANCH="develop"
+ARG KEEPASSXC_COMMIT="0b5ae1775cfb34143ee628694daee69e4765bbc7"
 
 FROM alpine:latest as builder
 
-ARG VERSION
-ARG REVISION
+ARG KEEPASSXC_REPOSITORY \
+    KEEPASSXC_BRANCH \
+    KEEPASSXC_COMMIT
 
 RUN set -x && \
     apk upgrade && \
@@ -33,9 +34,9 @@ RUN set -x && \
         libxi-dev \
         libxtst-dev \
         zlib-dev && \
-    git clone --branch ${VERSION} https://github.com/keepassxreboot/keepassxc.git /usr/src/keepassxc && \
+    git clone --branch ${KEEPASSXC_BRANCH} ${KEEPASSXC_REPOSITORY} /usr/src/keepassxc && \
     cd /usr/src/keepassxc && \
-    git reset --hard ${REVISION} && \
+    git reset --hard ${KEEPASSXC_COMMIT} && \
     mkdir build && \
     cd build && \
     cmake \
@@ -52,10 +53,15 @@ RUN set -x && \
 
 FROM alpine:latest
 
-ARG VERSION
-ARG REVISION
-ENV KEEPASSXC_VERSION="${VERSION}" \
-    KEEPASSXC_REVISION="${REVISION}"
+ARG KEEPASSXC_REPOSITORY \
+    KEEPASSXC_VERSION \
+    KEEPASSXC_BRANCH \
+    KEEPASSXC_COMMIT
+
+ENV KEEPASSXC_REPOSITORY="${KEEPASSXC_REPOSITORY}" \
+    KEEPASSXC_VERSION="${KEEPASSXC_VERSION}" \
+    KEEPASSXC_BRANCH="${KEEPASSXC_BRANCH}" \
+    KEEPASSXC_COMMIT="${KEEPASSXC_COMMIT}"
 
 COPY --from=builder /usr/local/bin/keepassxc /usr/local/bin/keepassxc
 COPY --from=builder /usr/local/share/keepassxc/ /usr/local/share/keepassxc/
@@ -87,6 +93,6 @@ ENTRYPOINT [ "/usr/local/bin/keepassxc" ]
 
 LABEL org.opencontainers.image.title="keepassxc" \
     org.opencontainers.image.description="keepassxc in Docker" \
-    org.opencontainers.image.revision="${REVISION}" \
-    org.opencontainers.image.version="${VERSION}"
+    org.opencontainers.image.revision="${KEEPASSXC_COMMIT}" \
+    org.opencontainers.image.version="${KEEPASSXC_VERSION}"
 
