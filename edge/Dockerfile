@@ -1,6 +1,6 @@
 # The global build args need to all be prefixed with ARG for the update substitutions to work
 ARG KEEPASSXC_REPOSITORY="https://github.com/keepassxreboot/keepassxc"
-ARG KEEPASXC_VERSION="edge"
+ARG KEEPASSXC_VERSION="edge"
 ARG KEEPASSXC_BRANCH="develop"
 ARG KEEPASSXC_COMMIT="0b5ae1775cfb34143ee628694daee69e4765bbc7"
 
