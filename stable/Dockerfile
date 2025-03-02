@@ -16,6 +16,7 @@ RUN set -x && \
     argon2-dev \
 	asciidoctor \
 	botan3-dev \
+    build-base \
 	cmake \
 	libqrencode-dev \
 	libusb-dev \
