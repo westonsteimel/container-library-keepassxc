@@ -4,7 +4,7 @@ ARG KEEPASSXC_VERSION="edge"
 ARG KEEPASSXC_BRANCH="develop"
 ARG KEEPASSXC_COMMIT="33a379607466bc80c75724d3990e1ba88ae35130"
 
-FROM alpine:latest as builder
+FROM alpine:latest AS builder
 
 ARG KEEPASSXC_REPOSITORY \
     KEEPASSXC_BRANCH \
@@ -71,8 +71,9 @@ ENV KEEPASSXC_REPOSITORY="${KEEPASSXC_REPOSITORY}" \
     KEEPASSXC_BRANCH="${KEEPASSXC_BRANCH}" \
     KEEPASSXC_COMMIT="${KEEPASSXC_COMMIT}"
 
-COPY --from=builder /usr/local/bin/keepassxc /usr/local/bin/keepassxc
-COPY --from=builder /usr/local/share/keepassxc/ /usr/local/share/keepassxc/
+COPY --from=builder /usr/bin/keepassxc* /usr/local/bin/
+COPY --from=builder /usr/lib/keepassxc/ /usr/local/lib/leepassxc/
+COPY --from=builder /usr/share/keepassxc/ /usr/local/share/keepassxc/
 
 RUN set -x && \
     apk upgrade && \
