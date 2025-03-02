@@ -40,8 +40,8 @@ RUN set -x && \
     cd build && \
     export CXXFLAGS="$CXXFLAGS -flto=auto" && \
 	cmake -G Ninja -B build \
-		-DCMAKE_INSTALL_PREFIX=/usr \
-		-DCMAKE_INSTALL_LIBDIR=/usr/lib \
+		-DCMAKE_INSTALL_PREFIX=/usr/local/ \
+		-DCMAKE_INSTALL_LIBDIR=/usr/local/lib \
 		-DCMAKE_BUILD_TYPE=MinSizeRel \
 		-DKEEPASSXC_BUILD_TYPE=Release \
 		-DWITH_XC_AUTOTYPE=ON \
@@ -71,9 +71,9 @@ ENV KEEPASSXC_REPOSITORY="${KEEPASSXC_REPOSITORY}" \
     KEEPASSXC_BRANCH="${KEEPASSXC_BRANCH}" \
     KEEPASSXC_COMMIT="${KEEPASSXC_COMMIT}"
 
-COPY --from=builder /usr/bin/keepassxc* /usr/local/bin/
-COPY --from=builder /usr/lib/keepassxc/ /usr/local/lib/keepassxc/
-COPY --from=builder /usr/share/keepassxc/ /usr/local/share/keepassxc/
+COPY --from=builder /usr/local/bin/keepassxc* /usr/local/bin/
+COPY --from=builder /usr/local/lib/keepassxc/ /usr/local/lib/keepassxc/
+COPY --from=builder /usr/local/share/keepassxc/ /usr/local/share/keepassxc/
 
 RUN set -x && \
     apk upgrade && \
@@ -82,7 +82,7 @@ RUN set -x && \
         libcurl \
         libmicrohttpd \
         libqrencode \
-        botan-libs \
+        botan3-libs \
         qt5-qtbase \
         qt5-qtbase-x11 \
         qt5-qtsvg \
