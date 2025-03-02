@@ -18,7 +18,8 @@ RUN set -x && \
 	botan3-dev \
     build-base \
 	cmake \
-	libqrencode-dev \
+	keyutils-dev \
+    libqrencode-dev \
 	libusb-dev \
 	libxi-dev \
 	libxtst-dev \

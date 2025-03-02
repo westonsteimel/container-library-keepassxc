@@ -18,11 +18,12 @@ RUN set -x && \
 	botan3-dev \
 	build-base \
     cmake \
+    keyutils-dev \
 	libqrencode-dev \
 	libusb-dev \
 	libxi-dev \
 	libxtst-dev \
-	minizip-dev \
+    minizip-dev \
 	pcsc-lite-dev \
 	qt5-qtbase-dev \
 	qt5-qtsvg-dev \
