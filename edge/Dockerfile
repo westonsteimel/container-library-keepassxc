@@ -54,8 +54,8 @@ RUN set -x && \
 		-DWITH_XC_FDOSECRETS=ON \
 		-DWITH_GUI_TESTS=ON \
         .. && \
-    make && \
-    make install && \
+    cmake --build build && \
+    cmake --install build && \
     echo "keepassxc build complete"
 
 FROM alpine:latest
