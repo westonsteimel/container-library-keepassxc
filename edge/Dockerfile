@@ -2,7 +2,7 @@
 ARG KEEPASSXC_REPOSITORY="https://github.com/keepassxreboot/keepassxc"
 ARG KEEPASSXC_VERSION="edge"
 ARG KEEPASSXC_BRANCH="develop"
-ARG KEEPASSXC_COMMIT="31c0b2389007f85c03ae73870e3d6f2a648fa67b"
+ARG KEEPASSXC_COMMIT="af2479da8dc0ff0c7104c4ccde1715b1c562dfdc"
 
 FROM alpine:latest AS builder
 
