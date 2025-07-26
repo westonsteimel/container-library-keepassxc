@@ -72,7 +72,7 @@ ENV KEEPASSXC_REPOSITORY="${KEEPASSXC_REPOSITORY}" \
     KEEPASSXC_COMMIT="${KEEPASSXC_COMMIT}"
 
 COPY --from=builder /usr/local/bin/keepassxc* /usr/local/bin/
-COPY --from=builder /usr/local/lib/keepassxc/ /usr/local/lib/leepassxc/
+COPY --from=builder /usr/local/lib/keepassxc/ /usr/local/lib/keepassxc/
 COPY --from=builder /usr/local/share/keepassxc/ /usr/local/share/keepassxc/
 
 RUN set -x && \
