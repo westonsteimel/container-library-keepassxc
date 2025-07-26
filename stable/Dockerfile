@@ -14,24 +14,31 @@ RUN set -x && \
     apk upgrade && \
     apk --no-cache add --virtual .build-dependencies \
     argon2-dev \
+    argon2-static \
 	asciidoctor \
 	botan3-dev \
-    build-base \
-	cmake \
-	keyutils-dev \
-    libqrencode-dev \
+	build-base \
+    cmake \
+    keyutils-dev \
+	libqrencode-dev \
 	libusb-dev \
-	libxi-dev \
-	libxtst-dev \
-	minizip-dev \
-	pcsc-lite-dev \
+    libxi-dev \
+	libxi-static \
+    libxtst-dev \
+	libxtst-static \
+    minizip-dev \
+    minizip-static \
+    pcsc-lite-dev \
+	pcsc-lite-static \
 	qt5-qtbase-dev \
 	qt5-qtsvg-dev \
 	qt5-qttools-dev \
 	qt5-qtx11extras-dev \
-	readline-dev \
+    readline-dev \
+	readline-static \
 	samurai \
-	zlib-dev \
+    zlib-dev \
+	zlib-static \
     git && \
     git clone --branch ${KEEPASSXC_BRANCH} ${KEEPASSXC_REPOSITORY} /usr/src/keepassxc && \
     cd /usr/src/keepassxc && \
@@ -39,8 +46,9 @@ RUN set -x && \
     mkdir build && \
     cd build && \
     export CXXFLAGS="$CXXFLAGS -flto=auto" && \
+    export LDFLAGS="-static" && \
 	cmake -G Ninja -B build \
-		-DCMAKE_INSTALL_PREFIX=/usr/local/ \
+		-DCMAKE_INSTALL_PREFIX=/usr/local \
 		-DCMAKE_INSTALL_LIBDIR=/usr/local/lib \
 		-DCMAKE_BUILD_TYPE=MinSizeRel \
 		-DKEEPASSXC_BUILD_TYPE=Release \
@@ -78,20 +86,16 @@ COPY --from=builder /usr/local/share/keepassxc/ /usr/local/share/keepassxc/
 RUN set -x && \
     apk upgrade && \
     apk --no-cache add \
-        argon2-libs \
-        libcurl \
-        libmicrohttpd \
+        keyutils-libs \
         libqrencode \
         botan3-libs \
+        libusb \
         qt5-qtbase \
         qt5-qtbase-x11 \
         qt5-qtsvg \
         qt5-qttools \
         qt5-qtx11extras \
-        ttf-dejavu \
-        libxi \
-        libxtst \
-        zlib && \
+        ttf-dejavu && \
     rm -rf /var/cache/* && \
     addgroup keepassxc && \
     adduser -G keepassxc -s /bin/sh -D keepassxc
