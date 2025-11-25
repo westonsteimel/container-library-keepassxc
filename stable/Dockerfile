@@ -1,8 +1,8 @@
 # The global build args need to all be prefixed with ARG for the update substitutions to work
 ARG KEEPASSXC_REPOSITORY="https://github.com/keepassxreboot/keepassxc"
-ARG KEEPASSXC_VERSION="2.7.10"
-ARG KEEPASSXC_BRANCH="2.7.10"
-ARG KEEPASSXC_COMMIT="b342be457153aa098c8bbce0f8b0fd3baa8c158f"
+ARG KEEPASSXC_VERSION="2.7.11"
+ARG KEEPASSXC_BRANCH="2.7.11"
+ARG KEEPASSXC_COMMIT="01e5b6ee1d3e8fdef203505c645962696cb8d97c"
 
 FROM alpine:latest AS builder
 
